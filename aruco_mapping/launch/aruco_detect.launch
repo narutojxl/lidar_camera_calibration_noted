@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<launch> 
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find aruco_mapping)/launch/aruco_detect.rviz" />
+
+  <include file="$(find realsense2_camera)/launch/rs_camera.launch" />
+
+  <!-- aruco_detect -->
+  <node pkg="aruco_detect" type="aruco_detect" name="aruco_detect" output="screen">
+    <remap from="/camera" to="/camera/color/image_raw"/> <!--Type: sensor_msgs/Image-->     
+    <remap from="/camera_info" to="/camera/color/camera_info"/>   
+
+    <!-- pub topics
+     /fiducial_vertices (fiducial_msgs/Fiducials): the vertices of detected fiducials.
+     /fiducial_transforms (fiducial_msgs/FiducialTransforms): the pose of the fiducials relative to the camera.
+     -->
+
+    <param name="dictionary"     type="int"    value="11" />     <!--7 (DICT_5X5_1000)   11 (DICT_6X6_1000) -->   
+    <param name="fiducial_len"   type="double" value="0.247"/>  
+    <param name="publish_images" type="bool"   value="true" />
+
+    <param name="adaptiveThreshConstant"        type="int"    value="7" /> 
+    <param name="adaptiveThreshWinSizeMax"      type="int"    value="53" />
+    <param name="adaptiveThreshWinSizeMin"      type="int"    value="3" />  
+    <param name="adaptiveThreshWinSizeStep"     type="int"    value="4" />
+
+    <param name="cornerRefinementMaxIterations" type="int"    value="30" />
+    <param name="cornerRefinementWinSize"       type="int"    value="5" />  
+    <param name="cornerRefinementMinAccuracy"   type="double" value="0.01"/> 
+    <param name="doCornerRefinement"            type="bool"   value="true" /> 
+    <param name="errorCorrectionRate"           type="double" value="0.6"/> 
+    <param name="minCornerDistanceRate"         type="double" value="0.05"/>    
+
+    <param name="markerBorderBits"             type="int"    value="1" /> 
+    <param name="maxErroneousBitsInBorderRate" type="double" value="0.04"/>
+    
+    <param name="minDistanceToBorder"                   type="int"    value="3" />
+    <param name="minMarkerDistanceRate"                 type="double" value="0.05"/>
+    <param name="minMarkerPerimeterRate"                type="double" value="0.1"/>
+    <param name="maxMarkerPerimeterRate"                type="double" value="4.0"/>
+    <param name="minOtsuStdDev"                         type="double" value="5.0"/>
+    <param name="perspectiveRemoveIgnoredMarginPerCell" type="double" value="0.13"/>
+    <param name="perspectiveRemovePixelPerCell"         type="int"    value="8" /> 
+    <param name="polygonalApproxAccuracyRate"           type="double" value="0.01"/>
+
+  </node>  
+  
+
+  
+</launch>

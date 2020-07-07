@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+
+  <include file="$(find velodyne_pointcloud)/launch/VLP16_points.launch"   />
+
+  <rosparam command="load" file="$(find lidar_camera_calibration)/conf/lidar_camera_calibration.yaml" />
+  <node pkg="lidar_camera_calibration" type="find_transform" name="find_transform" output="screen">
+  </node>
+
+
+  <include file="$(find aruco_mapping)/launch/aruco_mapping.launch"   />
+ 
+
+ 
+  
+</launch>
+
